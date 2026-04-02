@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graph Tool</title>
+
+<script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=desmos"></script>
+
+<style>
+body {
+  margin: 0;
+  display: flex;
+  height: 100vh;
+  font-family: Arial;
+}
+
+#menu {
+  width: 220px;
+  background: #222;
+  color: white;
+  padding: 10px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: none;
+  background: #444;
+  color: white;
+  cursor: pointer;
+}
+
+#calculator {
+  flex: 1;
+}
+
+#panel {
+  width: 260px;
+  background: #f0f0f0;
+  padding: 10px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="menu">
+  <h3>도구</h3>
+  <button onclick="clearAll()">초기화</button>
+</div>
+
+<div id="calculator"></div>
+
+<div id="panel">
+  <h3>함수 입력</h3>
+  <input id="input" placeholder="예: x^2 또는 y=x^2">
+  <button onclick="add()">그래프 추가</button>
+</div>
+
+<script>
+const calc = Desmos.GraphingCalculator(
+  document.getElementById('calculator'),
+  { expressions: true }
+);
+
+// ✅ 버튼 통합
+function add() {
+  let val = document.getElementById("input").value;
+
+  if (!val) return;
+
+  // 👉 y= 자동 추가 (핵심)
+  if (!val.includes("=")) {
+    val = "y=" + val;
+  }
+
+  calc.setExpression({
+    latex: val
+  });
+}
+
+// 초기화
+function clearAll() {
+  calc.setBlank();
+}
+</script>
+
+</body>
+</html>
